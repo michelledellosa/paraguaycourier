@@ -111,8 +111,8 @@ export class RegisterPage implements OnInit {
   onBirthdateChange(event: CustomEvent) {
     // Aquí puedes manejar el cambio de fecha de nacimiento
     const nuevaFecha = event.detail.value;
-    console.log('Nueva fecha de nacimiento:', nuevaFecha);
-    console.log(typeof nuevaFecha);
+    /*console.log('Nueva fecha de nacimiento:', nuevaFecha);
+    console.log(typeof nuevaFecha);*/
     // Puedes hacer cualquier acción que necesites con la nueva fecha aquí
   }
 
@@ -209,8 +209,8 @@ export class RegisterPage implements OnInit {
           //convierto string en json- ya que no permite acceder a 'cod' directamente
           let respRegister: any = JSON.parse(respString);
 
-          console.log(respRegister,'respRegister');
-          console.log(respRegister.cod,'respRegister.cod');
+          /*console.log(respRegister,'respRegister');
+          console.log(respRegister.cod,'respRegister.cod');*/
           if(respRegister?.cod=='00'){
             this.iab.create(
               respRegister.msg,

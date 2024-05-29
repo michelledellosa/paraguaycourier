@@ -89,6 +89,37 @@ export class ApiService {
     );
   }
 
+  sendCodeForgot(token: string, password: string) {
+
+    /**
+     -data a=forgotv2changepass \
+    --data token=[TOKEN] \
+    --data password=[NEW_PASSWORD]
+     */
+    const data = {
+      a: 'forgotv2changepass',
+      token: token,
+      passwors:password
+    };
+
+    // Define las cabeceras que deseas enviar
+    const header = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+     // 'User-Agent': 'insomnia/8.5.1',
+    });
+
+    // Convierte los datos a formato x-www-form-urlencoded
+    const body = this.convertirAFormUrlEncoded(data);
+
+    // Realiza la solicitud POST
+    return this.http.post(
+      this.apiUrl, //'https://paraguaycourier.com/eappnew/eappnew.php',
+
+      body,
+      { headers: header }
+    );
+  }
+
   registerService(
     data: string,
     data2: string,

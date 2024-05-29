@@ -4,34 +4,29 @@ import { Storage } from '@ionic/storage-angular';
 @Injectable({
   providedIn: 'root'
 })
-export class CredentialsService {
+export class StorageService {
+  private storageReady: Promise<void>;
 
   constructor(private storage: Storage) {
-  
-   }
-
-  async saveCredentials(email: string, password: string) {
-    try {
-      await this.storage.set('credentials', { email, password });
-    } catch (error) {
-      console.error('Error saving credentials to storage', error);
-    }
+    this.storageReady = this.init();
   }
 
-  async getCredentials() {
-    try {
-      return await this.storage.get('credentials');
-    } catch (error) {
-      console.error('Error getting credentials from storage', error);
-      return null;
-    }
+  async init() {
+    await this.storage.create();
   }
 
-  async clearCredentials() {
-    try {
-      await this.storage.remove('credentials');
-    } catch (error) {
-      console.error('Error clearing credentials from storage', error);
-    }
+  async setItem(key: string, value: any): Promise<void> {
+    await this.storageReady;
+    await this.storage.set(key, value);
+  }
+
+  async getItem(key: string): Promise<any> {
+    await this.storageReady;
+    return this.storage.get(key);
+  }
+
+  async removeItem(key: string): Promise<void> {
+    await this.storageReady;
+    await this.storage.remove(key);
   }
 }

@@ -8,6 +8,7 @@ import {
 import { ApiService } from '../../services/apiService';
 import { Router } from '@angular/router';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+import { StorageService } from 'src/app/services/storageService';
 
 @Component({
   selector: 'app-forgot-password',
@@ -22,6 +23,7 @@ export class ForgotPasswordPage implements OnInit {
     private apiService: ApiService,
     private router: Router,
     private iab: InAppBrowser,
+    private storageService: StorageService 
   ) {
     this.formGroup = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -30,26 +32,30 @@ export class ForgotPasswordPage implements OnInit {
 
   ngOnInit() {}
 
-  openForgot() {
+   openForgot() {
     if (this.formGroup.valid) {
       const emailValue = this.formGroup.get('email')?.value;
       this.apiService
       .forgotServiceV2(emailValue)
-      .subscribe((response) => {
+      .subscribe(async (response) => {
         if (response) {
           let respString = JSON.stringify(response);
 
+       
           //convierto string en json- ya que no permite acceder a 'cod' directamente
           let respLogin: any = JSON.parse(respString);
-          
+       
+        if (respLogin.cod && respLogin.cod == '00') {
+       //   await this.storageService.setItem('email', emailValue);
+          await this.storageService.setItem('msg', respLogin.msg);
 
-          if (respLogin.cod && respLogin.cod == '00') {
+          this.router.navigate(['/forgot-code']);
           
-            this.iab.create(
+         /*   this.iab.create(
               respLogin.msg,
               '_blank',
               'location=no,zoom=no,toolbar=no'
-            );
+            );*/
             this.formGroup.reset();
           } else {
             alert(respLogin.msg)

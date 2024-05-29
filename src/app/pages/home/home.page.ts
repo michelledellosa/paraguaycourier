@@ -101,7 +101,22 @@ credentials:any;
             if (parsedCredentials) {
                 this.credentials = parsedCredentials;
                 //this.presentAlert(parsedCredentials);
-                this.presentAlert2(parsedCredentials);
+                //this.presentAlert2(parsedCredentials);
+                this.apiService
+                .loginService(parsedCredentials.email, parsedCredentials.password)
+                .subscribe((response) => {
+                  if (response) {
+                    let respString = JSON.stringify(response);
+                    let respLogin: any = JSON.parse(respString);
+                    if (respLogin.cod && respLogin.cod == '00') {
+                      this.iab.create(
+                        respLogin.msg,
+                        '_blank',
+                        'location=no,zoom=no,toolbar=no'
+                      );
+                    }
+                  }
+                });
             } else {
                 alert('Las credenciales en localStorage no son válidas.');
             }

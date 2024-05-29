@@ -11,6 +11,8 @@ import {
   HttpClientModule,
   HttpHeaders,
 } from '@angular/common/http';
+import { IonicStorageModule } from '@ionic/storage-angular';
+
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire/compat';
@@ -31,6 +33,7 @@ import { environment } from '../environments/environment';
     AngularFireStorageModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    IonicStorageModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase)
   
   ],
